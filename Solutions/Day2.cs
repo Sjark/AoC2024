@@ -1,14 +1,19 @@
-namespace AoC2024;
+namespace AoC2024.Solutions;
 
 public class Day2 : ISolution
 {
-    public void Execute()
-    {
-        var input = File.ReadAllLines("Solutions/Day2Input.txt");
+    private readonly string[] _input;
 
+    public Day2()
+    {
+        _input = File.ReadAllLines("Solutions/Day2Input.txt");
+    }
+
+    public string PartOne()
+    {
         var safe = 0;
 
-        foreach (var line in input)
+        foreach (var line in _input)
         {
             var numbers = line.Split(' ').Select(int.Parse).ToList();
 
@@ -18,11 +23,14 @@ public class Day2 : ISolution
             }
         }
 
-        Console.WriteLine($"a: {safe}");
+        return safe.ToString();
+    }
 
-        safe = 0;
+    public string PartTwo()
+    {
+        var safe = 0;
 
-        foreach (var line in input)
+        foreach (var line in _input)
         {
             var numbers = line.Split(' ').Select(int.Parse).ToList();
 
@@ -47,7 +55,7 @@ public class Day2 : ISolution
             }
         }
 
-        Console.WriteLine($"b: {safe}");
+        return safe.ToString();
     }
 
     private bool IsSafe(List<int> numbers)

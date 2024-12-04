@@ -1,9 +1,20 @@
-namespace AoC2024;
+namespace AoC2024.Solutions;
 
 public class {{CLASSNAME}} : ISolution
 {
-    public void Execute()
+    private readonly string[] _input;
+
+    public {{CLASSNAME}}() {
+        _input = input = File.ReadAllLines("Solutions/{{CLASSNAME}}Input.txt");
+    }
+
+    public string Part_One()
     {
-        var input = File.ReadAllLines("Solutions/{{CLASSNAME}}Input.txt");
+        return "Not implemented";
+    }
+
+    public string Part_Two()
+    {
+        return "Not implemented";
     }
 }

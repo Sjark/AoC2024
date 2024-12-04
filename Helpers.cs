@@ -2,7 +2,7 @@
 
 namespace AoC2024;
 
-public static class Helpers
+public static partial class Helpers
 {
     public static IOrderedEnumerable<T> OrderByAlphaNumeric<T>(
         this IEnumerable<T> source,
@@ -12,15 +12,15 @@ public static class Helpers
         int max =
             source
                 .SelectMany(i =>
-                    Regex
-                        .Matches(selector(i), @"\d+")
+                    GetDigitRegex()
+                        .Matches(selector(i))
                         .Cast<Match>()
                         .Select(m => (int?)m.Value.Length)
                 )
                 .Max() ?? 0;
 
         return source.OrderBy(i =>
-            Regex.Replace(selector(i), @"\d+", m => m.Value.PadLeft(max, '0'))
+            GetDigitRegex().Replace(selector(i), m => m.Value.PadLeft(max, '0'))
         );
     }
 
@@ -67,6 +67,9 @@ public static class Helpers
 
         return inside;
     }
+
+    [GeneratedRegex(@"\d+")]
+    private static partial Regex GetDigitRegex();
 }
 
 public record Coord(int X, int Y);

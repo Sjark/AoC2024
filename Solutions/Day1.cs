@@ -1,16 +1,24 @@
-namespace AoC2024;
+namespace AoC2024.Solutions;
 
 public class Day1 : ISolution
 {
-    public void Execute()
+    private readonly string[] _input;
+
+    public Day1()
     {
-        var input = File.ReadAllLines("Solutions/Day1Input.txt");
+        _input = File.ReadAllLines("Solutions/Day1Input.txt");
+    }
+
+    public string PartOne()
+    {
         List<int> leftList = [];
         List<int> rightList = [];
 
-        foreach (var item in input)
+        foreach (var item in _input)
         {
-            var nums = item.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            var nums = item.Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
             leftList.Add(nums[0]);
             rightList.Add(nums[1]);
         }
@@ -25,16 +33,21 @@ public class Day1 : ISolution
             totalDistance += int.Abs(leftList[i] - rightList[i]);
         }
 
-        Console.WriteLine(totalDistance);
+        return totalDistance.ToString();
+    }
 
+    public string PartTwo()
+    {
         List<int> leftListPart2 = [];
         Dictionary<int, int> rightListPart2 = [];
 
-        foreach (var item in input)
+        foreach (var item in _input)
         {
-            var nums = item.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            var nums = item.Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
             leftListPart2.Add(nums[0]);
-            
+
             if (rightListPart2.TryGetValue(nums[1], out int value))
             {
                 rightListPart2[nums[1]] = ++value;
@@ -55,6 +68,6 @@ public class Day1 : ISolution
             }
         }
 
-        Console.WriteLine(result);
+        return result.ToString();
     }
 }

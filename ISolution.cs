@@ -2,5 +2,6 @@
 
 public interface ISolution
 {
-    void Execute();
+    string PartOne();
+    string PartTwo();
 }

@@ -1,45 +1,53 @@
-namespace AoC2024;
+namespace AoC2024.Solutions;
 
 public class Day4 : ISolution
 {
-    public void Execute()
+    private readonly char[,] _matrix;
+
+    public Day4()
     {
         var input = File.ReadAllLines("Solutions/Day4Input.txt");
-        var matrix = new char[input[0].Length, input.Length];
+        _matrix = new char[input[0].Length, input.Length];
 
         for (int i = 0; i < input.Length; i++)
         {
             var line = input[i];
             for (int j = 0; j < line.Length; j++)
             {
-                matrix[i, j] = line[j];
+                _matrix[i, j] = line[j];
             }
         }
+    }
 
+    public string PartOne()
+    {
         var result = 0;
 
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        for (int i = 0; i < _matrix.GetLength(0); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < _matrix.GetLength(1); j++)
             {
-                if (matrix[i, j] == 'X')
+                if (_matrix[i, j] == 'X')
                 {
-                    result += GetNumberOfXmas(matrix, new Coord(j, i));
+                    result += GetNumberOfXmas(_matrix, new Coord(j, i));
                 }
             }
         }
 
-        Console.WriteLine($"a: {result}");
+        return result.ToString();
+    }
 
-        result = 0;
+    public string PartTwo()
+    {
+        var result = 0;
 
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        for (int i = 0; i < _matrix.GetLength(0); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < _matrix.GetLength(1); j++)
             {
-                if (matrix[i, j] == 'A')
+                if (_matrix[i, j] == 'A')
                 {
-                    if (IsXmas(matrix, new Coord(j, i)))
+                    if (IsXmas(_matrix, new Coord(j, i)))
                     {
                         result++;
                     }
@@ -47,7 +55,7 @@ public class Day4 : ISolution
             }
         }
 
-        Console.WriteLine($"b: {result}");
+        return result.ToString();
     }
 
     private bool IsXmas(char[,] matrix, Coord coord)

@@ -1,15 +1,19 @@
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace AoC2024;
+namespace AoC2024.Solutions;
 
 public partial class Day3 : ISolution
 {
-    public void Execute()
+    private readonly string _input;
+
+    public Day3()
     {
-        var input = File.ReadAllText("Solutions/Day3Input.txt").ReplaceLineEndings("");
-        var regex = FindMultiplications();
-        var multiplications = FindMultiplications().Matches(input);
+        _input = File.ReadAllText("Solutions/Day3Input.txt").ReplaceLineEndings("");
+    }
+
+    public string PartOne()
+    {
+        var multiplications = FindMultiplications().Matches(_input);
 
         var result = 0;
 
@@ -23,14 +27,17 @@ public partial class Day3 : ISolution
             }
         }
 
-        Console.WriteLine($"a: {result}");
+        return result.ToString();
+    }
 
-        result = 0;
+    public string PartTwo()
+    {
+        var result = 0;
         var does = true;
 
-        foreach (var match in FindMultiplicationsDoesAndDonts().EnumerateMatches(input))
+        foreach (var match in FindMultiplicationsDoesAndDonts().EnumerateMatches(_input))
         {
-            var matchWord = input.Substring(match.Index, match.Length);
+            var matchWord = _input.Substring(match.Index, match.Length);
 
             if (matchWord == "do()")
             {
@@ -46,7 +53,7 @@ public partial class Day3 : ISolution
             }
         }
 
-        Console.WriteLine($"b: {result}");
+        return result.ToString();
     }
 
     private int Multiply(string input)
