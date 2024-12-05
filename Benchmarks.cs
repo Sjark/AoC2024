@@ -10,6 +10,7 @@ namespace AoC2024
         private readonly Day2 _day2;
         private readonly Day3 _day3;
         private readonly Day4 _day4;
+        private readonly Day5 _day5;
 
         public Benchmarks()
         {
@@ -17,6 +18,7 @@ namespace AoC2024
             _day2 = new Day2();
             _day3 = new Day3();
             _day4 = new Day4();
+            _day5 = new Day5();
         }
 
         [Benchmark]
@@ -42,5 +44,11 @@ namespace AoC2024
 
         [Benchmark]
         public string Day4PartTwo() => _day4.PartTwo();
+
+        [Benchmark]
+        public string Day5PartOne() => _day5.PartOne();
+
+        [Benchmark]
+        public string Day5PartTwo() => _day5.PartTwo();
     }
 }

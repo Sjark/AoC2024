@@ -5,15 +5,15 @@ public class {{CLASSNAME}} : ISolution
     private readonly string[] _input;
 
     public {{CLASSNAME}}() {
-        _input = input = File.ReadAllLines("Solutions/{{CLASSNAME}}Input.txt");
+        _input = File.ReadAllLines("Solutions/{{CLASSNAME}}Input.txt");
     }
 
-    public string Part_One()
+    public string PartOne()
     {
         return "Not implemented";
     }
 
-    public string Part_Two()
+    public string PartTwo()
     {
         return "Not implemented";
     }
