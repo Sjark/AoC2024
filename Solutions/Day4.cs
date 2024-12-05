@@ -2,34 +2,24 @@ namespace AoC2024.Solutions;
 
 public class Day4 : ISolution
 {
-    private readonly char[,] _matrix;
+    private readonly string[] _input;
 
     public Day4()
     {
-        var input = File.ReadAllLines("Solutions/Day4Input.txt");
-        _matrix = new char[input[0].Length, input.Length];
-
-        for (int i = 0; i < input.Length; i++)
-        {
-            var line = input[i];
-            for (int j = 0; j < line.Length; j++)
-            {
-                _matrix[i, j] = line[j];
-            }
-        }
+        _input = File.ReadAllLines("Solutions/Day4Input.txt");
     }
 
     public string PartOne()
     {
         var result = 0;
 
-        for (int i = 0; i < _matrix.GetLength(0); i++)
+        for (int i = 0; i < _input.Length; i++)
         {
-            for (int j = 0; j < _matrix.GetLength(1); j++)
+            for (int j = 0; j < _input[0].Length; j++)
             {
-                if (_matrix[i, j] == 'X')
+                if (_input[i][j] == 'X')
                 {
-                    result += GetNumberOfXmas(_matrix, new Coord(j, i));
+                    result += GetNumberOfXmas(new Coord(j, i));
                 }
             }
         }
@@ -41,13 +31,13 @@ public class Day4 : ISolution
     {
         var result = 0;
 
-        for (int i = 0; i < _matrix.GetLength(0); i++)
+        for (int i = 0; i < _input.Length; i++)
         {
-            for (int j = 0; j < _matrix.GetLength(1); j++)
+            for (int j = 0; j < _input[0].Length; j++)
             {
-                if (_matrix[i, j] == 'A')
+                if (_input[i][j] == 'A')
                 {
-                    if (IsXmas(_matrix, new Coord(j, i)))
+                    if (IsXmas(new Coord(j, i)))
                     {
                         result++;
                     }
@@ -58,53 +48,53 @@ public class Day4 : ISolution
         return result.ToString();
     }
 
-    private bool IsXmas(char[,] matrix, Coord coord)
+    private bool IsXmas(Coord coord)
     {
         if (
             coord.X == 0
             || coord.Y == 0
-            || coord.X == matrix.GetLength(1) - 1
-            || coord.Y == matrix.GetLength(0) - 1
+            || coord.X == _input[0].Length - 1
+            || coord.Y == _input.Length - 1
         )
         {
             return false;
         }
 
         if (
-            matrix[coord.Y - 1, coord.X - 1] == 'M'
-            && matrix[coord.Y - 1, coord.X + 1] == 'M'
-            && matrix[coord.Y + 1, coord.X - 1] == 'S'
-            && matrix[coord.Y + 1, coord.X + 1] == 'S'
+            _input[coord.Y - 1][coord.X - 1] == 'M'
+            && _input[coord.Y - 1][coord.X + 1] == 'M'
+            && _input[coord.Y + 1][coord.X - 1] == 'S'
+            && _input[coord.Y + 1][coord.X + 1] == 'S'
         )
         {
             return true;
         }
 
         if (
-            matrix[coord.Y - 1, coord.X - 1] == 'M'
-            && matrix[coord.Y - 1, coord.X + 1] == 'S'
-            && matrix[coord.Y + 1, coord.X - 1] == 'M'
-            && matrix[coord.Y + 1, coord.X + 1] == 'S'
+            _input[coord.Y - 1][coord.X - 1] == 'M'
+            && _input[coord.Y - 1][coord.X + 1] == 'S'
+            && _input[coord.Y + 1][coord.X - 1] == 'M'
+            && _input[coord.Y + 1][coord.X + 1] == 'S'
         )
         {
             return true;
         }
 
         if (
-            matrix[coord.Y - 1, coord.X - 1] == 'S'
-            && matrix[coord.Y - 1, coord.X + 1] == 'S'
-            && matrix[coord.Y + 1, coord.X - 1] == 'M'
-            && matrix[coord.Y + 1, coord.X + 1] == 'M'
+            _input[coord.Y - 1][coord.X - 1] == 'S'
+            && _input[coord.Y - 1][coord.X + 1] == 'S'
+            && _input[coord.Y + 1][coord.X - 1] == 'M'
+            && _input[coord.Y + 1][coord.X + 1] == 'M'
         )
         {
             return true;
         }
 
         if (
-            matrix[coord.Y - 1, coord.X - 1] == 'S'
-            && matrix[coord.Y - 1, coord.X + 1] == 'M'
-            && matrix[coord.Y + 1, coord.X - 1] == 'S'
-            && matrix[coord.Y + 1, coord.X + 1] == 'M'
+            _input[coord.Y - 1][coord.X - 1] == 'S'
+            && _input[coord.Y - 1][coord.X + 1] == 'M'
+            && _input[coord.Y + 1][coord.X - 1] == 'S'
+            && _input[coord.Y + 1][coord.X + 1] == 'M'
         )
         {
             return true;
@@ -113,16 +103,16 @@ public class Day4 : ISolution
         return false;
     }
 
-    private int GetNumberOfXmas(char[,] matrix, Coord coord)
+    private int GetNumberOfXmas(Coord coord)
     {
         var count = 0;
 
         // forward
         if (
-            coord.X + 3 < matrix.GetLength(1)
-            && matrix[coord.Y, coord.X + 1] == 'M'
-            && matrix[coord.Y, coord.X + 2] == 'A'
-            && matrix[coord.Y, coord.X + 3] == 'S'
+            coord.X + 3 < _input[0].Length
+            && _input[coord.Y][coord.X + 1] == 'M'
+            && _input[coord.Y][coord.X + 2] == 'A'
+            && _input[coord.Y][coord.X + 3] == 'S'
         )
         {
             count++;
@@ -131,9 +121,9 @@ public class Day4 : ISolution
         // backward
         if (
             coord.X - 3 >= 0
-            && matrix[coord.Y, coord.X - 1] == 'M'
-            && matrix[coord.Y, coord.X - 2] == 'A'
-            && matrix[coord.Y, coord.X - 3] == 'S'
+            && _input[coord.Y][coord.X - 1] == 'M'
+            && _input[coord.Y][coord.X - 2] == 'A'
+            && _input[coord.Y][coord.X - 3] == 'S'
         )
         {
             count++;
@@ -141,10 +131,10 @@ public class Day4 : ISolution
 
         // down
         if (
-            coord.Y + 3 < matrix.GetLength(0)
-            && matrix[coord.Y + 1, coord.X] == 'M'
-            && matrix[coord.Y + 2, coord.X] == 'A'
-            && matrix[coord.Y + 3, coord.X] == 'S'
+            coord.Y + 3 < _input.Length
+            && _input[coord.Y + 1][coord.X] == 'M'
+            && _input[coord.Y + 2][coord.X] == 'A'
+            && _input[coord.Y + 3][coord.X] == 'S'
         )
         {
             count++;
@@ -153,9 +143,9 @@ public class Day4 : ISolution
         // up
         if (
             coord.Y - 3 >= 0
-            && matrix[coord.Y - 1, coord.X] == 'M'
-            && matrix[coord.Y - 2, coord.X] == 'A'
-            && matrix[coord.Y - 3, coord.X] == 'S'
+            && _input[coord.Y - 1][coord.X] == 'M'
+            && _input[coord.Y - 2][coord.X] == 'A'
+            && _input[coord.Y - 3][coord.X] == 'S'
         )
         {
             count++;
@@ -165,9 +155,9 @@ public class Day4 : ISolution
         if (
             coord.Y - 3 >= 0
             && coord.X - 3 >= 0
-            && matrix[coord.Y - 1, coord.X - 1] == 'M'
-            && matrix[coord.Y - 2, coord.X - 2] == 'A'
-            && matrix[coord.Y - 3, coord.X - 3] == 'S'
+            && _input[coord.Y - 1][coord.X - 1] == 'M'
+            && _input[coord.Y - 2][coord.X - 2] == 'A'
+            && _input[coord.Y - 3][coord.X - 3] == 'S'
         )
         {
             count++;
@@ -176,10 +166,10 @@ public class Day4 : ISolution
         // right up
         if (
             coord.Y - 3 >= 0
-            && coord.X + 3 < matrix.GetLength(1)
-            && matrix[coord.Y - 1, coord.X + 1] == 'M'
-            && matrix[coord.Y - 2, coord.X + 2] == 'A'
-            && matrix[coord.Y - 3, coord.X + 3] == 'S'
+            && coord.X + 3 < _input[0].Length
+            && _input[coord.Y - 1][coord.X + 1] == 'M'
+            && _input[coord.Y - 2][coord.X + 2] == 'A'
+            && _input[coord.Y - 3][coord.X + 3] == 'S'
         )
         {
             count++;
@@ -187,11 +177,11 @@ public class Day4 : ISolution
 
         // left down
         if (
-            coord.Y + 3 < matrix.GetLength(0)
+            coord.Y + 3 < _input.Length
             && coord.X - 3 >= 0
-            && matrix[coord.Y + 1, coord.X - 1] == 'M'
-            && matrix[coord.Y + 2, coord.X - 2] == 'A'
-            && matrix[coord.Y + 3, coord.X - 3] == 'S'
+            && _input[coord.Y + 1][coord.X - 1] == 'M'
+            && _input[coord.Y + 2][coord.X - 2] == 'A'
+            && _input[coord.Y + 3][coord.X - 3] == 'S'
         )
         {
             count++;
@@ -199,11 +189,11 @@ public class Day4 : ISolution
 
         // right down
         if (
-            coord.Y + 3 < matrix.GetLength(0)
-            && coord.X + 3 < matrix.GetLength(1)
-            && matrix[coord.Y + 1, coord.X + 1] == 'M'
-            && matrix[coord.Y + 2, coord.X + 2] == 'A'
-            && matrix[coord.Y + 3, coord.X + 3] == 'S'
+            coord.Y + 3 < _input.Length
+            && coord.X + 3 < _input[0].Length
+            && _input[coord.Y + 1][coord.X + 1] == 'M'
+            && _input[coord.Y + 2][coord.X + 2] == 'A'
+            && _input[coord.Y + 3][coord.X + 3] == 'S'
         )
         {
             count++;
