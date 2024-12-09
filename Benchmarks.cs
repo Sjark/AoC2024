@@ -1,6 +1,5 @@
 ﻿using AoC2024.Solutions;
 using BenchmarkDotNet.Attributes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AoC2024
 {

@@ -1,5 +1,3 @@
-using Iced.Intel;
-
 namespace AoC2024.Solutions;
 
 public class Day6 : ISolution
@@ -97,10 +95,9 @@ public class Day6 : ISolution
     {
         var visited = new HashSet<CoordWithDirection>();
         var currentPosition = startPos;
-        var positionOutside = false;
         var direction = 'N';
 
-        while (!positionOutside)
+        while (true)
         {
             Coord newPos = CalculateNextPosition(currentPosition, direction);
 
@@ -123,11 +120,9 @@ public class Day6 : ISolution
             }
             else
             {
-                positionOutside = true;
+                return false;
             }
         }
-
-        return false;
     }
 
     private static char RotateDirection(char direction)
