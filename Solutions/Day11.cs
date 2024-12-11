@@ -12,9 +12,10 @@ public class Day11 : ISolution
     public string PartOne()
     {
         var stones = 0L;
+        var cache = new Dictionary<StoneIter, long>();
         foreach (var stone in _input)
         {
-            CalculateStonesAfterBlinks(stone, 25, ref stones);
+            stones += CalculateStonesAfterBlinks(stone, 25, cache);
         }
 
         return stones.ToString();
@@ -23,25 +24,34 @@ public class Day11 : ISolution
     public string PartTwo()
     {
         var stones = 0L;
+        var cache = new Dictionary<StoneIter, long>();
         foreach (var stone in _input)
         {
-            CalculateStonesAfterBlinks(stone, 75, ref stones);
+            stones += CalculateStonesAfterBlinks(stone, 75, cache);
         }
 
         return stones.ToString();
     }
 
-    private void CalculateStonesAfterBlinks(long stone, int n, ref long stones)
+    private long CalculateStonesAfterBlinks(long stone, int n, Dictionary<StoneIter, long> cache)
     {
         if (n == 0)
         {
-            stones++;
-            return;
+            return 1;
         }
+
+        var stoneIter = new StoneIter(stone, n);
+
+        if (cache.TryGetValue(stoneIter, out var stones))
+        {
+            return stones;
+        }
+
+        long result;
 
         if (stone == 0)
         {
-            CalculateStonesAfterBlinks(1, n - 1, ref stones);
+            result = CalculateStonesAfterBlinks(1, n - 1, cache);
         }
         else
         {
@@ -49,13 +59,20 @@ public class Day11 : ISolution
 
             if (stoneString.Length % 2 == 0)
             {
-                CalculateStonesAfterBlinks(long.Parse(stoneString.AsSpan()[..(stoneString.Length / 2)]), n - 1, ref stones);
-                CalculateStonesAfterBlinks(long.Parse(stoneString.AsSpan()[(stoneString.Length / 2)..]), n - 1, ref stones);
+                result =
+                    CalculateStonesAfterBlinks(long.Parse(stoneString.AsSpan()[..(stoneString.Length / 2)]), n - 1, cache)
+                    + CalculateStonesAfterBlinks(long.Parse(stoneString.AsSpan()[(stoneString.Length / 2)..]), n - 1, cache);
             }
             else
             {
-                CalculateStonesAfterBlinks(stone * 2024, n - 1, ref stones);
+                result = CalculateStonesAfterBlinks(stone * 2024, n - 1, cache);
             }
         }
+
+        cache.Add(stoneIter, result);
+
+        return result;
     }
 }
+
+public record StoneIter(long Stone, int Iter);
